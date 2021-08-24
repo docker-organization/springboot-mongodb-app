@@ -1,0 +1,87 @@
+#Rolling Update
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: javawebappdeployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: javawebapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 30
+  template:
+    metadata:
+      name: javawebapppod
+      labels:
+        app: javawebapp
+    spec:
+      containers:
+      - name: javawebappcontainer
+        image: dockerhandson/java-web-app
+        ports:
+        - containerPort: 8080
+               
+---
+# Node Port Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: javawebapp
+  name: javawebapp
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: javawebapp
+
+#Rolling Update
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: javawebappdeployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: mavenwebapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 30
+  template:
+    metadata:
+      name: mavenwebapppod
+      labels:
+        app: mavenwebapp
+    spec:
+      containers:
+      - name: mavenwebapppod
+        image: dockerhandson/maven-web-app
+        ports:
+        - containerPort: 8080
+
+---
+# Node Port Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mavenwebapp
+  name: mavenwebapp
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: mavenwebapp
