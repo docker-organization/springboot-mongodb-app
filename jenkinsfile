@@ -23,13 +23,18 @@ node {
      }
 
       stage("Deploy To plab02"){
-      sh "scp -o StrictHostKeyChecking=no global.yml docker-compose-plab02.yml  ec2-user@18.216.238.46:/home/ec2-user/"
-      sh "ssh ec2-user@18.216.238.46 docker-compose -f global.yml -f docker-compose-plab02.yml  up "
+      sshagent(['SSH_PRIVATE_KEY_docker']) {
+       sh 'ssh -o StrictHostKeyChecking=no ec2-user@18.216.238.46'
+       sh "scp -o StrictHostKeyChecking=no global.yml docker-compose-plab02.yml  ec2-user@18.216.238.46:/home/ec2-user/"
+       }
+       sh "ssh ec2-user@18.216.238.46 docker-compose -f global.yml -f docker-compose-plab02.yml  up "
       }
 
       stage("Deploy To qlab02"){
-      sh "scp -o StrictHostKeyChecking=no global.yml docker-compose-qlab02.yml  ec2-user@3.141.10.50:/home/ec2-user/"
-      sh "ssh ec2-user@3.141.10.50 docker-compose -f global.yml -f docker-compose-plab02.yml  up "
+      sshagent(['SSH_PRIVATE_KEY_docker']) {
+        sh "scp -o StrictHostKeyChecking=no global.yml docker-compose-qlab02.yml  ec2-user@3.141.10.50:/home/ec2-user/"
+       }
+       sh "ssh ec2-user@3.141.10.50 docker-compose -f global.yml -f docker-compose-qlab02.yml  up "
       }
 
 }
