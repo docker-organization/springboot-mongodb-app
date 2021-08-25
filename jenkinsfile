@@ -1,7 +1,6 @@
 node {
      def buildNumber = BUILD_NUMBER
      def mvnHome = tool 'maven-build'
-     def dockerHome = 'my-docker'
 
     stage ("checkout")  {
     git credentialsId: 'git-authentication-jenkins-login', url: 'https://github.com/docker-organization/springboot-mongodb-app.git'
@@ -13,7 +12,7 @@ node {
     }
 
     stage('Build Docker Image'){
-        sh "${dockerHome}/docker build . -t agunu2025/mongodbspring-application:${buildNumber}"
+        sh "docker build . -t agunu2025/mongodbspring-application:${buildNumber}"
     }
 
      stage('Push Docker Image'){
