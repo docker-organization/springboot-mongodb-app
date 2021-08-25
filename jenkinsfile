@@ -22,15 +22,14 @@ node {
         sh "docker push agunu2025/mongodbspring-application:${buildNumber} "
      }
 
-
-    stage('Remove Docker Image'){
-        sh "docker rmi -f agunu2025/mongodbspring-application:${buildNumber} "
-       }
-
-
-  stage("Deploy To Kuberates Cluster"){
-      withKubeConfig(credentialsId: 'kubeConfig') {
-      sh 'kubectl apply -f springBootMongo.yml'
+      stage("Deploy To plab02"){
+      sh "scp -o StrictHostKeyChecking=no global.yml docker-compose-plab02.yml  ec2-user@18.216.238.46:/home/ec2-user/"
+      sh "ssh ec2-user@18.216.238.46 docker-compose -f global.yml -f docker-compose-plab02.yml  up "
       }
-    }
+
+      stage("Deploy To qlab02"){
+      sh "scp -o StrictHostKeyChecking=no global.yml docker-compose-qlab02.yml  ec2-user@3.141.10.50:/home/ec2-user/"
+      sh "ssh ec2-user@3.141.10.50 docker-compose -f global.yml -f docker-compose-plab02.yml  up "
+      }
+
 }

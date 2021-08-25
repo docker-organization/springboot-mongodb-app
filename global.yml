@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  springboot:
+    image: agunu2025/mongodbspring-application:1
+    restart: always # This will be ignored if we deploy in docker swarm
+    ports:
+      - 8080:8080
+    container_name: mongodb-app
+    networks:
+    - my-customer-network
+
+  mongo:
+    image: mongo
+    volumes:
+      - my-customer-volume:/data/db
+    restart: always
+    networks:
+    - my-customer-network
+
+volumes:
+  my-customer-volume:
+    external: true
+
+networks:
+  my-customer-network:
+    external: true
