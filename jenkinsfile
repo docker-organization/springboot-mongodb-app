@@ -27,13 +27,14 @@ node {
       sshagent(['aws-private-key-connection']) {
        sh "scp -o StrictHostKeyChecking=no global.yml docker-compose-plab02.yml  ec2-user@18.216.238.46:/home/ec2-user/"
        }
-       sh "ssh ec2-user@18.216.238.46 docker-compose -f global.yml -f docker-compose-plab02.yml  up -d"
+       sh "ssh -o StrictHostKeyChecking=no ec2-user@18.216.238.46:/home/ec2-user/ docker-compose -f global.yml -f docker-compose-qlab02.yml  up"
       }
 
       stage("Deploy To qlab02"){
       sshagent(['SSH_PRIVATE_KEY_docker']) {
         sh "scp -o StrictHostKeyChecking=no global.yml docker-compose-qlab02.yml  ec2-user@3.141.10.50:/home/ec2-user/"
        }
+       sh "ssh -o StrictHostKeyChecking=no ec2-user@3.141.10.50"
        sh "ssh ec2-user@3.141.10.50 docker-compose -f global.yml -f docker-compose-qlab02.yml  up "
       }
 
