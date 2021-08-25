@@ -27,9 +27,6 @@ node {
         sh "docker rmi -f agunu2025/mongodbspring-application:${buildNumber} "
        }
 
-     stage('Build Docker Image'){
-        sh "docker rm -f agunu2025/mongodbspring-application:${buildNumber} "
-       }
 
   stage("Deploy To Kuberates Cluster"){
       withKubeConfig(credentialsId: 'kubeConfig') {
