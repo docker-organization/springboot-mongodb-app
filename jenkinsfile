@@ -28,9 +28,9 @@ node {
        sh "scp -o StrictHostKeyChecking=no global.yml docker-compose-plab02.yml  ec2-user@18.216.238.46:/home/ec2-user/"
        script{
            try{
-               sh "ssh ec2-user@18.216.238.46 docker-compose -f global.yml -f docker-compose-qlab02.yml  up ."
+               sh "ssh ec2-user@18.216.238.46 docker-compose -f global.yml -f docker-compose-qlab02.yml  up "
               }catch(error){
-               sh "ssh ec2-user@18.216.238.46 docker-compose -f global.yml -f docker-compose-qlab02.yml  up ."
+               sh "ssh ec2-user@18.216.238.46 docker-compose -f global.yml -f docker-compose-qlab02.yml  up "
            }
        }
        }
