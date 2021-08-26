@@ -26,7 +26,7 @@ node {
       sh "chmod +x global.yml docker-compose-plab02.yml  "
       sshagent(['aws-private-key-connection']) {
        sh "scp -o StrictHostKeyChecking=no global.yml docker-compose-plab02.yml  ec2-user@3.138.158.136:/home/ec2-user/"
-       sh 'docker-compose -f global.yml -f docker-compose-qlab02.yml  up'
+       sh 'docker-compose -f global.yml -f docker-compose-qlab02.yml  up -d '
        }
       }
 
